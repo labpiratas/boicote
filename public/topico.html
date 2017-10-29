@@ -1,0 +1,375 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Nome do tema - Boicote</title>
+<link rel="stylesheet" href="/lib/marx-2.0.7.min.css">
+<link rel="stylesheet" href="/lib/helpers.min.css">
+<link rel="stylesheet" href="/lib/font-awesome-4.7.0/css/font-awesome.min.css">
+<link rel="stylesheet" href="/lib/material-design-icons-3.0.1/iconfont/material-icons.css">
+<link rel="stylesheet" href="/lib/tingle-0.11.0/tingle.min.css">
+<link rel="stylesheet" href="/app.css">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Montserrat:400,500,600|Open+Sans:400,600">
+<link rel="manifest" href="/manifest.json">
+<!-- <link rel="icon" href="/img/boicote.png" /> -->
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+</head>
+<body>
+
+<header>
+  <div class="maxWidth" text="black-80" layout="flex row items-center justify-center h-padding-15" style="height:70px">
+    <a href="/" class="titulo-principal">
+      <strong text="giant">
+        <i class="fa fa-ban" text="red"></i>
+        Boicote!
+      </strong>
+    </a>
+    <!-- <menu text="right" layout="grow right-40" links="gray-60 hover-blue">
+      <a href="#">APRENDA</a>
+      <a href="#">SOBRE</a>
+      <a href="#">APP</a>
+    </menu> -->
+    <div layout="flex items-center grow" text="right" links="gray-60 hover-blue">
+      <div layout="grow">
+        <a layout="inline-block" href="/topico-form">Iniciar um boicote!</a>
+      </div>
+      &nbsp; &nbsp;
+      <!-- <div id="areaDeNotificacoes" layout="relative">
+        <i class="material-icons">notifications</i>
+        <span class="label">3</span>
+        <menu layout="absolute" hidden>
+          <a href="#" layout="flex row items-center">
+            <span style="flex-shrink: 0">
+              <img src="/img/arthur.jpg" alt="Art" layout="circle" width="50">
+            </span>
+            <span style="padding-left:15px">
+              <b>Arthur Araújo</b> comentou o tema
+              <span class="fakelink">Cuidados a se tormar em relação a uma rinite alérgica</span>
+              <br>
+              <i class="fa fa-fw fa-comments"></i> <span>5 minutos</span>
+            </span>
+          </a>
+          <a href="/perfil/notificacoes" layout="flex row items-center">
+            <span style="flex-shrink: 0">
+              Ver todas as notificações
+            </span>
+          </a>
+        </menu>
+      </div> -->
+      <div id="areaDoUsuario" layout="inline-block" data-template hidden style="padding: 12px">
+        <img src="[[avatar]]" alt="[[nome]]" width="50" layout="circle left">
+        <menu>
+          <!-- <a href="#">Perfil</a> -->
+          <!-- <a href="#">Configurações</a> -->
+          <a href="#" onclick="app.logout(event)">Sair</a>
+        </menu>
+      </div>
+      <div id="areaDoVisitante" layout="inline-block" hidden>
+        <button onclick="app.modal(app.template.modalLogin, ['button', 'escape'], 400)" type="outline">
+          login
+        </button>
+        &nbsp;
+        <button type="button" onclick="app.modal(app.template.modalCadastro, ['button', 'escape'], 400)">cadastro</button>
+      </div>
+    </div>
+  </div>
+</header>
+
+<main>
+  <div class="maxWidth">
+
+<div cols="8" style="padding-right:60px">
+
+  <article layout="margin-20 left" hidden>
+
+    <header layout="flex no-margin">
+      <h1>[[titulo]]</h1>
+      <div layout="no-shrink top-30">
+        <i id="btnEditaTopico" class="material-icons">&#xE5D4;</i>
+      </div>
+    </header>
+
+    <div class="box" layout="flex row items-center bottom-30">
+      <div id="btnBoicotes" layout="grow">
+        <button type="boicotar" onclick="app.topicos.boicotar('[[_id]]')">
+          <i class="fa fa-fw fa-ban"></i>
+          Boicotar!
+        </button>
+        <button type="boicotando" onclick="app.topicos.boicotar('[[_id]]', true)" onmouseover="this.innerHTML='<i class=\'fa fa-fw fa-eye\'></i> Deixar boicote...'" onmouseout="this.innerHTML = '<i class=\'fa fa-fw fa-eye\'></i> Boicotando'" hidden>
+          <i class="fa fa-fw fa-eye"></i>
+          Boicotando
+        </button>
+      </div>
+      <div text="inline-block gray-50 small" layout="right-15">
+        [[dataFormatada]]
+      </div>
+      <div>
+        <img text="middle" src="[[autor.avatar]]" alt="[[autor.nome]]" layout="circle" width="25">
+        <b text="small">[[autor.nome]]</b>
+      </div>
+    </div>
+
+    <p>
+      [[{texto}]]
+    </p>
+
+    <p>
+      [[{tagsFormatadas}]]
+    </p>
+
+    <div id="listasDoTopico">
+      <div>
+        <header text="white bold" layout="black padding-10 no-margin">
+          [[num_motivos]] Motivos
+        </header>
+        <ul layout="flat" style="background: #eee">
+          [[#motivos]]
+          <li onclick="app.topicos.modalFonte('[[_id]]', 'motivos')" text="line-1.5" layout="padding-10 fix" style="border-bottom:1px solid rgba(0, 0, 0, .1)">
+            <div layout="flex">
+              <div text="2em bold black-30" layout="right-15">
+                [[indice]]
+              </div>
+              <div class="">
+                <h3 text="" layout="top-5 bottom-15">[[titulo]]</h3>
+                <div text=".9em line-1.5">[[texto]]</div>
+                <p text=".7em blue" layout="v-margin-15">
+                  <i class="fa fa-external-link"></i>
+                  [[fonte]]
+                </p>
+              </div>
+            </div>
+          </li>
+          [[/motivos]]
+          [[^motivos]]
+          <li text="line-1.5" layout="padding-10 fix">
+            <p text=".8em center" layout="no-margin">
+              Nenhuma fonte ainda.
+            </p>
+          </li>
+          [[/motivos]]
+          <li onclick="app.topicos.modalFormFonte('motivos')" text=".9em line-1.5" layout="padding-10 black-10 fix">
+            <i class="material-icons">&#xE145;</i> Adicionar um motivo
+          </li>
+        </ul>
+      </div>
+    </div>
+  </article>
+
+</div>
+
+<aside id="sidebar" cols="4">
+  <section layout="yellow">
+    <h2 text="1.3em bold black-80" layout="top-10">Como boicotar?</h2>
+    <p text=".9em"></p>
+  </section>
+</aside>
+
+<script>
+function __init () {
+  app.topicos.carregar(app.slug())
+}
+</script>
+
+
+<div id="modalFonte" data-template hidden>
+  <header layout="flex bottom-10 fix">
+    <div layout="right-10" style="margin-top:-8px">
+      <i class="material-icons voto-sim [[votouSim]]" onhover="pointer" style="font-size:2.8em" onclick="app.topicos.votar(1, this)">&#xE316;</i> <br>
+      <i class="material-icons voto-nao [[votouNao]]" onhover="pointer" style="font-size:2.8em" onclick="app.topicos.votar(-1, this)">&#xE313;</i>
+    </div>
+    <div layout="auto grow">
+      <h2 text="line-1" layout="no-margin no-bottom fix">
+        [[{titulo}]]
+      </h2>
+      <p text="small" style="margin-top:-10px">
+        <a href="[[fonte]]" target="_blank">[[fonte]]</a>
+      </p>
+    </div>
+    <div>
+      <i id="btnEditaFonte" class="material-icons">&#xE5D4;</i>
+    </div>
+  </header>
+
+  <div class="box" layout="flex row items-center bottom-20">
+    <div text="1.4em gray-20" layout="grow">
+      <!-- TOOLBARS -->
+    </div>
+    <div text="inline-block gray-50 small" layout="right-15">
+      [[dataFormatada]]
+    </div>
+    <div>
+      <img text="middle" src="[[autor.avatar]]" alt="[[autor.nome]]" layout="circle" width="25">
+      <b text="small">[[autor.nome]]</b>
+    </div>
+  </div>
+
+  <p text=".8em gray" layout="flex row items-center no-margin" style="padding-bottom:15px">
+    <span layout="grow">[[num_comentarios]] comentários &nbsp; </span>
+  </p>
+
+  <ul id="comentariosDoModal" data-template layout="flat">
+    [[#comentarios]]
+    <li id="comentario_[[_id]]" text="line-1.5" layout="v-padding-10 fix" style="border-top:1px solid rgba(0, 0, 0, .1)">
+      <div layout="left">
+        <img src="[[autor.avatar]]" alt="[[autor.nome]]" layout="circle" width="40">
+      </div>
+      <div layout="auto" style="padding-left:10px">
+        <div layout="flex">
+          <h3 text=".8em bold" layout="grow no-margin">
+            [[autor.nome]] <span text="normal gray-30">@[[autor.nick]] [[dataFormatadaHumana]]</span>
+            [[btnRemoveComentario]]
+          </h3>
+          <span class="btn-remove" onclick="app.topicos.confirmaRemoverComentario('[[_id]]')" layout="[[btnRemoveComentario]]">&times;</span>
+        </div>
+        <div text=".8em" layout="no-margin">
+          [[{comentario}]]
+        </div>
+      </div>
+    </li>
+    [[/comentarios]]
+  </ul>
+
+  [[#usuario]]
+  <div class="rBox" layout="flex items-center" style="margin:20px -32px -32px">
+    <div style="padding-right:10px;">
+      <img src="[[usuario.avatar]]" alt="[[usuario.nome]]" layout="circle" width="40">
+    </div>
+    <textarea id="caixaDeComentario" name="name" rows="2" layout="no-margin grow" placeholder="Comente sobre o assunto" onkeydown="app.topicos.enviaComentario('[[_id]]', this.value, event)"></textarea>
+  </div>
+  [[/usuario]]
+
+</div>
+
+<div id="modalFormFonte" data-template hidden>
+  <h2 class="escondeAoEditar" layout="no-top bottom-20">Adicionar uma nova fonte:</h2>
+  <h2 class="mostraAoEditar" layout="no-top bottom-20" hidden>Editar fonte:</h2>
+  <form id="formFonte" action="" onsubmit="app.topicos.salvarFonte(this, event)">
+    <p>
+      <label text="small bold" for="fonte">Link da fonte<span text="orange">*</span>:</label>
+      <input type="text" name="fonte" layout="fluid" placeholder="Cole o link da fonte a ser discutida. Pode ser de um texto, áudio, imagem ou vídeo" onchange="app.topicos.analisaFonte(this.value)">
+    </p>
+    <p>
+      <label text="small bold" for="titulo">Título da fonte<span text="orange">*</span>:</label>
+      <input type="text" name="titulo" layout="fluid" placeholder="Título contido no link da fonte">
+    </p>
+    <p>
+      <label text="small bold" for="texto">Resumo<span text="orange">*</span>:</label>
+      <textarea name="texto" layout="fluid" rows="2" placeholder="Escreva uma descrição da fonte"></textarea>
+    </p>
+    <p>
+      <input type="hidden" name="_id">
+      <input type="hidden" name="tipo">
+      <button type="cancelar" layout="right" onclick="app.fechaModal(event)">Cancelar</button>
+      <button class="escondeAoEditar" type="submit">Adicionar</button>
+      <button class="mostraAoEditar" type="submit" hidden>Atualizar</button>
+    </p>
+  </form>
+</div>
+
+
+  </div>
+</main>
+
+
+<div id="modalCadastro" data-template hidden>
+  <h2 class="escondeAoEditar" layout="no-top bottom-20">Cadastro:</h2>
+  <form id="formCadastro" layout="fix" action="" onsubmit="app.cadastro(this, event)">
+    <p>
+      <label text="small bold" for="nome">Nome:</label>
+      <input type="text" name="nome" layout="fluid" placeholder="Informe seu nome">
+    </p>
+    <p>
+      <label text="small bold" for="email">E-mail:</label>
+      <input type="text" name="email" layout="fluid" placeholder="Informe seu email">
+    </p>
+    <p>
+      <label text="small bold" for="senha">Senha:</label>
+      <input type="password" name="senha" layout="fluid" placeholder="******">
+    </p>
+    <p>
+      <button type="submit" layout="left">Cadastrar</button>
+      <button type="cancelar" layout="right" onclick="app.fechaModal(event)">Cancelar</button>
+    </p>
+  </form>
+</div>
+
+<div id="modalLogin" data-template hidden>
+  <h2 class="escondeAoEditar" layout="no-top bottom-20">Acesso ao site:</h2>
+  <form id="formLogin" layout="fix" onsubmit="app.login(this, event); return false">
+    <p>
+      <label text="small bold" for="email">E-mail:</label>
+      <input type="text" name="email" layout="fluid" placeholder="Informe seu email">
+    </p>
+    <p>
+      <label text="small bold" for="senha">Senha:</label>
+      <input type="password" name="senha" layout="fluid" placeholder="******">
+    </p>
+    <!-- <p>
+      <label text="small bold" for="lembrar">
+        <input type="checkbox" name="lembrar" placeholder="******" value="1"> Lembrar-me
+      </label>
+    </p> -->
+    <p>
+      <button type="submit" layout="left">Login</button>
+      <button type="cancelar" layout="right" onclick="app.fechaModal(event)">Cancelar</button>
+    </p>
+  </form>
+</div>
+
+<footer text="white .8em line-1.75 left" layout="gray-80 v-padding-40 fix" links="no-decoration gray-20 hover-red">
+  <div layout="max-960 center">
+    <div cols="3">
+      <a href="http://labpirata.com" target="_blank">
+        <span text=".8em upper bold">Produzido por:</span> <br>
+        <img src="http://labpirata.com/labpirata-footer.png" alt="">
+        <br>
+        <span text="gray-20">
+          Somos uma incubadora digital de <br>
+          projetos tecnológicos que desenvolve <br>
+          inovação para pessoas e coletivos.
+        </span>
+      </a>
+    </div>
+    <div cols="3" layout="top-10" style="padding-left:20px">
+      <b layout="inline-block bottom-10">Projetos</b> <br>
+      <a href="http://labpirata.com" target="_blank">LabPirata.com</a> <br>
+      <a href="http://comidalivre.org" target="_blank">ComidaLivre.org</a> <br>
+      <a href="https://libreflix.org/" target="_blank">LibreFlix.org</a> <br>
+      <a href="http://helpers.araujo.cc" target="_blank">Helpers CSS Framework</a> <br>
+      <a href="http://mom.labpirata.com" target="_blank">Tradutor MOM</a> <br>
+    </div>
+    <div cols="3" layout="top-10" style="padding-left:50px">
+      <!-- <b layout="inline-block bottom-10">Mapa do site</b> <br> -->
+    </div>
+    <div cols="3">
+      <div class="titulo-principal">
+        <i class="fa fa-ban" style="font-size:1.6em"></i>
+        <strong text="bigger">Boicote!</strong>
+      </div>
+      <a layout="inline-block top-10" href="https://www.facebook.com/LabPiratas" target="_blank"><i class="fa fa-facebook fa-2x"></i></a>
+      &nbsp; &nbsp;
+      <a href="https://www.youtube.com/channel/UCU6m4HnIoBo77XppAINqZ4g" target="_blank"><i class="fa fa-youtube-play fa-2x"></i></a>
+      &nbsp; &nbsp;
+      <a href="https://www.instagram.com/labpiratas/" target="_blank"><i class="fa fa-instagram fa-2x"></i></a>
+      &nbsp; &nbsp;
+      <a href="https://github.com/labpiratas" target="_blank"><i class="fa fa-github fa-2x"></i></a>
+      <p text=".7em">
+        <a href="https://creativecommons.org/licenses/by/4.0/" target="_blank">
+          CC BY <i class="fa fa-creative-commons"></i> ALGUNS DIREITOS RESERVADOS <br>
+          (pode copiar o conteúdo desde que cite o autor)
+        </a>
+      </p>
+    </div>
+  </div>
+</footer>
+
+<script src="/lib/tingle-0.11.0/tingle.min.js"></script>
+<script src="/lib/mustache-2.3.0.min.js"></script>
+<script src="/lib/jquery-3.2.1.min.js"></script>
+<script src="/lib/popover-1.1.2.min.js"></script>
+<script src="/lib/marked-0.3.6.min.js"></script>
+<script src="/js/app.js"></script>
+<script src="/js/app.topicos.js"></script>
+<script src="/js/init.js"></script>
+
+</body>
+</html>

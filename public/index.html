@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Boicote - Ação coletiva a favor da justiça!</title>
+<link rel="stylesheet" href="/lib/marx-2.0.7.min.css">
+<link rel="stylesheet" href="/lib/helpers.min.css">
+<link rel="stylesheet" href="/lib/font-awesome-4.7.0/css/font-awesome.min.css">
+<link rel="stylesheet" href="/lib/material-design-icons-3.0.1/iconfont/material-icons.css">
+<link rel="stylesheet" href="/lib/tingle-0.11.0/tingle.min.css">
+<link rel="stylesheet" href="/app.css">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Montserrat:400,500,600|Open+Sans:400,600">
+<link rel="manifest" href="/manifest.json">
+<!-- <link rel="icon" href="/img/boicote.png" /> -->
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+</head>
+<body>
+
+<header>
+  <div class="maxWidth" text="black-80" layout="flex row items-center justify-center h-padding-15" style="height:70px">
+    <a href="/" class="titulo-principal">
+      <strong text="giant">
+        <i class="fa fa-ban" text="red"></i>
+        Boicote!
+      </strong>
+    </a>
+    <!-- <menu text="right" layout="grow right-40" links="gray-60 hover-blue">
+      <a href="#">APRENDA</a>
+      <a href="#">SOBRE</a>
+      <a href="#">APP</a>
+    </menu> -->
+    <div layout="flex items-center grow" text="right" links="gray-60 hover-blue">
+      <div layout="grow">
+        <a layout="inline-block" href="/topico-form">Iniciar um boicote!</a>
+      </div>
+      &nbsp; &nbsp;
+      <!-- <div id="areaDeNotificacoes" layout="relative">
+        <i class="material-icons">notifications</i>
+        <span class="label">3</span>
+        <menu layout="absolute" hidden>
+          <a href="#" layout="flex row items-center">
+            <span style="flex-shrink: 0">
+              <img src="/img/arthur.jpg" alt="Art" layout="circle" width="50">
+            </span>
+            <span style="padding-left:15px">
+              <b>Arthur Araújo</b> comentou o tema
+              <span class="fakelink">Cuidados a se tormar em relação a uma rinite alérgica</span>
+              <br>
+              <i class="fa fa-fw fa-comments"></i> <span>5 minutos</span>
+            </span>
+          </a>
+          <a href="/perfil/notificacoes" layout="flex row items-center">
+            <span style="flex-shrink: 0">
+              Ver todas as notificações
+            </span>
+          </a>
+        </menu>
+      </div> -->
+      <div id="areaDoUsuario" layout="inline-block" data-template hidden style="padding: 12px">
+        <img src="[[avatar]]" alt="[[nome]]" width="50" layout="circle left">
+        <menu>
+          <!-- <a href="#">Perfil</a> -->
+          <!-- <a href="#">Configurações</a> -->
+          <a href="#" onclick="app.logout(event)">Sair</a>
+        </menu>
+      </div>
+      <div id="areaDoVisitante" layout="inline-block" hidden>
+        <button onclick="app.modal(app.template.modalLogin, ['button', 'escape'], 400)" type="outline">
+          login
+        </button>
+        &nbsp;
+        <button type="button" onclick="app.modal(app.template.modalCadastro, ['button', 'escape'], 400)">cadastro</button>
+      </div>
+    </div>
+  </div>
+</header>
+
+<main>
+  <div class="maxWidth">
+
+<a href="/auth/facebook">Login with Facebook</a>
+
+<div cols="12">
+
+  <div layout="margin-20 left">
+
+    <h1>Temas debatidos</h1>
+
+    <ul id="listaDeTopicos" layout="flat" data-template hidden>
+      [[#topicos]]
+      <li onclick="app.go('/tema/[[slug]]')" text="1.1em line-1.5" layout="padding-10 fix" style="border-bottom:1px solid rgba(0, 0, 0, .1)" onhover="pointer">
+        <h3 text="1em bold" layout="no-margin">[[titulo]]</h3>
+        <!-- <p text=".8em blue" layout="no-margin">tecmundo.com.br</p> -->
+        <!-- <p text=".8em gray bold" layout="no-margin">
+          <i class="material-icons" style="font-size:1.9em">&#xE316;</i>[[num_votos_sim]]
+          <i class="material-icons" style="font-size:1.9em">&#xE313;</i>[[num_votos_nao]]
+          <i class="material-icons" style="font-size:1.3em">&#xE0CA;</i>[[num_comentarios]]
+          <i class="material-icons" style="font-size:1.3em">&#xE8A6;</i>[[num_usuarios]]
+        </p> -->
+      </li>
+      [[/topicos]]
+    </ul>
+
+  </div>
+
+</div>
+
+<script>
+function __init () {
+  $.get('/api/topicos', function (topicos) {
+    $get('listaDeTopicos').innerHTML = app.render(app.template['listaDeTopicos'], { topicos: topicos })
+    $get('listaDeTopicos').removeAttribute('hidden')
+  })
+}
+</script>
+
+
+  </div>
+</main>
+
+
+<div id="modalCadastro" data-template hidden>
+  <h2 class="escondeAoEditar" layout="no-top bottom-20">Cadastro:</h2>
+  <form id="formCadastro" layout="fix" action="" onsubmit="app.cadastro(this, event)">
+    <p>
+      <label text="small bold" for="nome">Nome:</label>
+      <input type="text" name="nome" layout="fluid" placeholder="Informe seu nome">
+    </p>
+    <p>
+      <label text="small bold" for="email">E-mail:</label>
+      <input type="text" name="email" layout="fluid" placeholder="Informe seu email">
+    </p>
+    <p>
+      <label text="small bold" for="senha">Senha:</label>
+      <input type="password" name="senha" layout="fluid" placeholder="******">
+    </p>
+    <p>
+      <button type="submit" layout="left">Cadastrar</button>
+      <button type="cancelar" layout="right" onclick="app.fechaModal(event)">Cancelar</button>
+    </p>
+  </form>
+</div>
+
+<div id="modalLogin" data-template hidden>
+  <h2 class="escondeAoEditar" layout="no-top bottom-20">Acesso ao site:</h2>
+  <form id="formLogin" layout="fix" onsubmit="app.login(this, event); return false">
+    <p>
+      <label text="small bold" for="email">E-mail:</label>
+      <input type="text" name="email" layout="fluid" placeholder="Informe seu email">
+    </p>
+    <p>
+      <label text="small bold" for="senha">Senha:</label>
+      <input type="password" name="senha" layout="fluid" placeholder="******">
+    </p>
+    <!-- <p>
+      <label text="small bold" for="lembrar">
+        <input type="checkbox" name="lembrar" placeholder="******" value="1"> Lembrar-me
+      </label>
+    </p> -->
+    <p>
+      <button type="submit" layout="left">Login</button>
+      <button type="cancelar" layout="right" onclick="app.fechaModal(event)">Cancelar</button>
+    </p>
+  </form>
+</div>
+
+<footer text="white .8em line-1.75 left" layout="gray-80 v-padding-40 fix" links="no-decoration gray-20 hover-red">
+  <div layout="max-960 center">
+    <div cols="3">
+      <a href="http://labpirata.com" target="_blank">
+        <span text=".8em upper bold">Produzido por:</span> <br>
+        <img src="http://labpirata.com/labpirata-footer.png" alt="">
+        <br>
+        <span text="gray-20">
+          Somos uma incubadora digital de <br>
+          projetos tecnológicos que desenvolve <br>
+          inovação para pessoas e coletivos.
+        </span>
+      </a>
+    </div>
+    <div cols="3" layout="top-10" style="padding-left:20px">
+      <b layout="inline-block bottom-10">Projetos</b> <br>
+      <a href="http://labpirata.com" target="_blank">LabPirata.com</a> <br>
+      <a href="http://comidalivre.org" target="_blank">ComidaLivre.org</a> <br>
+      <a href="https://libreflix.org/" target="_blank">LibreFlix.org</a> <br>
+      <a href="http://helpers.araujo.cc" target="_blank">Helpers CSS Framework</a> <br>
+      <a href="http://mom.labpirata.com" target="_blank">Tradutor MOM</a> <br>
+    </div>
+    <div cols="3" layout="top-10" style="padding-left:50px">
+      <!-- <b layout="inline-block bottom-10">Mapa do site</b> <br> -->
+    </div>
+    <div cols="3">
+      <div class="titulo-principal">
+        <i class="fa fa-ban" style="font-size:1.6em"></i>
+        <strong text="bigger">Boicote!</strong>
+      </div>
+      <a layout="inline-block top-10" href="https://www.facebook.com/LabPiratas" target="_blank"><i class="fa fa-facebook fa-2x"></i></a>
+      &nbsp; &nbsp;
+      <a href="https://www.youtube.com/channel/UCU6m4HnIoBo77XppAINqZ4g" target="_blank"><i class="fa fa-youtube-play fa-2x"></i></a>
+      &nbsp; &nbsp;
+      <a href="https://www.instagram.com/labpiratas/" target="_blank"><i class="fa fa-instagram fa-2x"></i></a>
+      &nbsp; &nbsp;
+      <a href="https://github.com/labpiratas" target="_blank"><i class="fa fa-github fa-2x"></i></a>
+      <p text=".7em">
+        <a href="https://creativecommons.org/licenses/by/4.0/" target="_blank">
+          CC BY <i class="fa fa-creative-commons"></i> ALGUNS DIREITOS RESERVADOS <br>
+          (pode copiar o conteúdo desde que cite o autor)
+        </a>
+      </p>
+    </div>
+  </div>
+</footer>
+
+<script src="/lib/tingle-0.11.0/tingle.min.js"></script>
+<script src="/lib/mustache-2.3.0.min.js"></script>
+<script src="/lib/jquery-3.2.1.min.js"></script>
+<script src="/lib/popover-1.1.2.min.js"></script>
+<script src="/lib/marked-0.3.6.min.js"></script>
+<script src="/js/app.js"></script>
+<script src="/js/app.topicos.js"></script>
+<script src="/js/init.js"></script>
+
+</body>
+</html>

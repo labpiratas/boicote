@@ -1,0 +1,42 @@
+{
+  "name": "Boicote",
+  "description": "Ação coletiva a favor da justiça!",
+  "url": {
+		"domain": "http://boicote.labpirata.com/",
+		"files" : "/files",
+		"images": "/images",
+		"themes": "/themes",
+		"base": ""
+	},
+  "baseurl": "/",
+  "base": "",
+	"theme": "theme-boicote",
+  "auth": {
+    "local": {
+      "usernameField" : "email",
+      "passwordField" : "senha"
+    },
+    "facebook": {
+      "clientID": "",
+      "clientSecret": "",
+      "callbackURL": ""
+    }
+  },
+  "server": {
+    "mongo": "mongodb://user:password@localhost:27017/boicote",
+    "port": 8080,
+    "salt": 10,
+    "session": {
+      "name": "boicote",
+      "secret": "frase secreta"
+    },
+    "frontend": [
+      ["home", "index.html"],
+      ["topico", "topico.html"],
+      ["perfil", "perfil.html"],
+      ["perfil-editar", "perfil-editar.html"],
+      ["sobre", "sobre.html"],
+      ["topico-form", "topico-form.html"]
+    ]
+  }
+}
